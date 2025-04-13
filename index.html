@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Blacklight Evidence Intake | Counterpoint Legal</title>
+</head>
+<body>
+  <h2>Browser Privacy Scan</h2>
+  <p>
+    This tool will detect if fingerprinting, session recording, or other tracking tools are active on your device.
+    Results will be submitted as part of a legal claim. Your private data is not collected.
+  </p>
+
+  <form id="intakeForm" method="POST" action="https://YOUR_SCRIPT_URL_HERE">
+    <label>Your Name:</label><br>
+    <input type="text" name="name" required><br><br>
+
+    <label>Your Email:</label><br>
+    <input type="email" name="email" required><br><br>
+
+    <label>Platform Used:</label><br>
+    <select name="platform" required>
+      <option value="Roblox">Roblox</option>
+      <option value="Minecraft">Minecraft</option>
+      <option value="League of Legends">League of Legends</option>
+    </select><br><br>
+
+    <input type="hidden" id="scanResults" name="scanResults">
+    <input type="hidden" id="refID" name="refID" value="">
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <script src="https://themarkup.org/blacklight-query/blacklight-query.min.js"></script>
+  <script>
+    async function runBlacklightAndSetField() {
+      const result = await runBlacklightQuery();
+      document.getElementById('scanResults').value = JSON.stringify(result);
+    }
+
+    function getURLParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    window.onload = () => {
+      runBlacklightAndSetField();
+      const refID = getURLParam("ref");
+      if (refID) document.getElementById("refID").value = refID;
+    };
+  </script>
+</body>
+</html>
